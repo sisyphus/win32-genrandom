@@ -17,9 +17,19 @@ if($major < 5) {
 
 my %options = %{
 {
-  'NAME' => 'Win32::GenRandom',
-  'VERSION' => '0.01',
-  'PREREQ_PM' => {Test::Warn => '0.23'},
+  NAME => 'Win32::GenRandom',
+  VERSION => '0.01',
+  PREREQ_PM => {Test::Warn => '0.23'},
+  META_MERGE => {
+   'meta-spec' => { version => 2 },
+    resources => {
+      repository => {
+        type => 'git',
+        url => 'https://github.com/sisyphus/win32-genrandom.git',
+        web => 'https://github.com/sisyphus/win32-genrandom',
+      },
+    },
+  },
 }
 };
 
