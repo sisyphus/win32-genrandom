@@ -1,0 +1,11 @@
+MANIFEST
+Changes
+README
+GenRandom.pm
+GenRandom.xs
+Makefile.PL
+t/01load.t
+t/02cgr.t
+t/03rgr.t
+t/04print_error.t
+t/05gen_check.t
