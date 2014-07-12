@@ -1,5 +1,5 @@
 0.02
- - Amend t/04print_error.t to cater for German language.
+ - Amend t/04print_error.t to cater for some languages in addition to English.
 
 0.01
  - First release
