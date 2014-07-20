@@ -18,6 +18,9 @@ else {
 
   print "1..2\n";
   my $count = 10;
+
+  my $z = Math::GMPz->new('1' x 20000, 2);
+
   my ($major, $minor) = (Win32::GetOSVersion())[1, 2];
 
   my @cgr = cgr($count, 2500);
@@ -26,7 +29,7 @@ else {
   my $ok = 'abcd';
 
   for(@cgr) {
-    my $z = Math::GMPz->new(unpack("b*", $_), 2);
+    Math::GMPz::Rmpz_set_str($z, unpack("b*", $_), 2);
     $ok =~ s/a// unless Math::GMPz::Rmonobit($z);
     $ok =~ s/b// unless Math::GMPz::Rlong_run($z);
     $ok =~ s/c// unless Math::GMPz::Rruns($z);
@@ -47,7 +50,7 @@ else {
     $ok = 'abcd';
 
     for(@rgr) {
-      my $z = Math::GMPz->new(unpack("b*", $_), 2);
+      Math::GMPz::Rmpz_set_str($z, unpack("b*", $_), 2);
       $ok =~ s/a// unless Math::GMPz::Rmonobit($z);
       $ok =~ s/b// unless Math::GMPz::Rlong_run($z);
       $ok =~ s/c// unless Math::GMPz::Rruns($z);
