@@ -18,7 +18,7 @@ if($major < 5) {
 my %options = %{
 {
   NAME => 'Win32::GenRandom',
-  VERSION => '0.01',
+  VERSION_FROM => 'GenRandom.pm',
   PREREQ_PM => {Test::Warn => '0.23'},
   META_MERGE => {
    'meta-spec' => { version => 2 },
