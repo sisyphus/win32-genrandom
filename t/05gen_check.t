@@ -17,7 +17,7 @@ if($@) {
 else {
 
   print "1..2\n";
-  my $count = 200;
+  my $count = 10;
   my ($major, $minor) = (Win32::GetOSVersion())[1, 2];
 
   my @cgr = cgr($count, 2500);
