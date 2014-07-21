@@ -1,6 +1,6 @@
 # Run some basic tests to check the randomness.
-# Success implies little, but failure establishes that the PRG is
-# unsuitable for cryptographic purposes.
+# Success implies little, but failure establishes that the PRG
+# is unsuitable for cryptographic purposes.
 
 use strict;
 use warnings;
