@@ -77,15 +77,6 @@ __END__
     (Not available on Windows 2000 and earlier - croaks if used on
     such a system.)
 
-=head1 BUGS
-
-    Calling CryptGenRandom or RtlGenRandom repeatedly in a tight
-    loop can apparently crash perl. In t/05gen_check.t and
-    t/05gen_check_alt.t try increasing $count to around to, say,
-    200 and you should be able to experience the crash if you run
-    the script a few times.
-    Explanations welcome !!
-
 =head1 COPYRIGHT
 
     Copyright Sisyphus 2014.
