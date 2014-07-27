@@ -10,7 +10,7 @@
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-#include "INLINE.h"
+
 
 #include <wincrypt.h> /* needed for crypt_gen_random()
                          but not for rtl_gen_random() */
@@ -133,15 +133,6 @@ BOOLEAN RtlGenRandom(
   _Out_  PVOID RandomBuffer,
   _In_   ULONG RandomBufferLength
 );
-
-#define Inline_Stack_Vars dXSARGS
-#define Inline_Stack_Items items
-#define Inline_Stack_Item(x) ST(x)
-#define Inline_Stack_Reset sp = mark
-#define Inline_Stack_Push(x) XPUSHs(x)
-#define Inline_Stack_Done PUTBACK
-#define Inline_Stack_Return(x) XSRETURN(x)
-#define Inline_Stack_Void XSRETURN(0)
 
 */
 
