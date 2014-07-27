@@ -17,7 +17,7 @@ if($@) {
 else {
 
   print "1..2\n";
-  my $count = 10;
+  my $count = 210;
 
   my $z = Math::GMPz->new('1' x 20000, 2);
 
