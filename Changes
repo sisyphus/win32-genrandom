@@ -1,5 +1,5 @@
 0.03
- - Rearrange the code to try to get to the bottom of cgr() and rgr() fragility on x64.
+ - Rewrite rgr() so that it's suitable for MS compilers (and other minor rewrites).
 
 0.02
  - Amend t/04print_error.t to cater for some languages in addition to English.
