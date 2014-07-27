@@ -10,7 +10,7 @@
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-
+#include "INLINE.h"
 
 #include <wincrypt.h> /* needed for crypt_gen_random()
                          but not for rtl_gen_random() */
@@ -25,18 +25,18 @@ void print_error(pTHX) {
 void cgr(pTHX_ SV * quantity, SV * l) {
 
   dXSARGS;
-  int i;
-  char * buff;
+  unsigned long i;
+  BYTE * buff;
   HCRYPTPROV prov = 0;
   unsigned long how_many = (unsigned long)SvUV(quantity);
   DWORD len =      (DWORD)SvIV(l);
 
-  if(!CryptAcquireContextA(&prov, 0, 0, PROV_RSA_FULL, CRYPT_SILENT | CRYPT_VERIFYCONTEXT)) {
+  if(!CryptAcquireContextA(&prov, NULL, NULL, PROV_RSA_FULL, CRYPT_SILENT | CRYPT_VERIFYCONTEXT)) {
     print_error(aTHX); /* callback to $^E */
     croak("Call to CryptAcquireContextA() failed");
   }
 
-  Newx(buff, len, char);
+  Newx(buff, len + 1, BYTE);
   if(buff == NULL) {
     warn ("Failed to allocate memory for buffer");
     CryptReleaseContext(prov, 0);
@@ -45,13 +45,12 @@ void cgr(pTHX_ SV * quantity, SV * l) {
 
   for(i = 0; i < how_many; i++) {
     if(!CryptGenRandom(prov, len, buff)) {
-      warn("Call to CryptGenRandom() failed");
+      warn("Call to CryptGenRandom failed");
       Safefree(buff);
       CryptReleaseContext(prov, 0);
       print_error(aTHX); /* callback to $^E */
       croak("Croaking - owing to failure of call to CryptGenRandom");
     }
-
     ST(i) = sv_2mortal(newSVpv(buff, len));
   }
   Safefree(buff);
@@ -62,15 +61,16 @@ void cgr(pTHX_ SV * quantity, SV * l) {
 void rgr(pTHX_ SV * quantity, SV * l) {
 #ifndef WIN2K
   dXSARGS;
-  int i;
-  char * buff;
+  unsigned long i;
+  BYTE * buff;
   unsigned long how_many = (unsigned long)SvUV(quantity);
   ULONG len =      (ULONG)SvUV(l);
+  HMODULE hLib;
 
-  Newx(buff, len, char);
-  if(buff == 0) croak ("Failed to allocate memory for 'buff'");
+  Newx(buff, len + 1, BYTE);
+  if(buff == NULL) croak ("Failed to allocate memory for 'buff'");
 
-  HMODULE hLib=LoadLibrary("ADVAPI32.DLL");
+  hLib = LoadLibrary("ADVAPI32.DLL");
 
   if (hLib) {
     BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
@@ -98,7 +98,7 @@ void rgr(pTHX_ SV * quantity, SV * l) {
   XSRETURN(how_many);
 
 # else
-  croak("RtlGenRandom() not available on Windows 2000 - use CryptGenRandom() instead");
+  croak("RtlGenRandom not available on Windows 2000 - use CryptGenRandom instead");
 #endif
 
 }
@@ -134,8 +134,16 @@ BOOLEAN RtlGenRandom(
   _In_   ULONG RandomBufferLength
 );
 
-*/
+#define Inline_Stack_Vars dXSARGS
+#define Inline_Stack_Items items
+#define Inline_Stack_Item(x) ST(x)
+#define Inline_Stack_Reset sp = mark
+#define Inline_Stack_Push(x) XPUSHs(x)
+#define Inline_Stack_Done PUTBACK
+#define Inline_Stack_Return(x) XSRETURN(x)
+#define Inline_Stack_Void XSRETURN(0)
 
+*/
 
 MODULE = Win32::GenRandom  PACKAGE = Win32::GenRandom
 
