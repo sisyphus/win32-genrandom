@@ -36,10 +36,22 @@ else {
 
   for(@cgr) {
     Math::GMPz::Rmpz_set_str($z, unpack("b*", $_), 2);
-    $ok =~ s/a// unless Math::GMPz::Rmonobit($z);
-    $ok =~ s/b// unless Math::GMPz::Rlong_run($z);
-    $ok =~ s/c// unless Math::GMPz::Rruns($z);
-    $ok =~ s/d// unless Math::GMPz::Rpoker($z);
+    unless(Math::GMPz::Rmonobit($z)) {
+      $ok =~ s/a//;
+      print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+    }
+    unless(Math::GMPz::Rlong_run($z)) {
+      $ok =~ s/b//;
+      print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+    }
+    unless(Math::GMPz::Rruns($z)) {
+      $ok =~ s/c//;
+      print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+    }
+    unless(Math::GMPz::Rpoker($z)) {
+      $ok =~ s/d//;
+      print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+    }
   }
 
   if($ok eq 'abcd') {print "ok 1\n"}
@@ -57,10 +69,22 @@ else {
 
     for(@rgr) {
       Math::GMPz::Rmpz_set_str($z, unpack("b*", $_), 2);
-      $ok =~ s/a// unless Math::GMPz::Rmonobit($z);
-      $ok =~ s/b// unless Math::GMPz::Rlong_run($z);
-      $ok =~ s/c// unless Math::GMPz::Rruns($z);
-      $ok =~ s/d// unless Math::GMPz::Rpoker($z);
+      unless(Math::GMPz::Rmonobit($z)) {
+        $ok =~ s/a//;
+        print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+      }
+      unless(Math::GMPz::Rlong_run($z)) {
+        $ok =~ s/b//;
+        print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+      }
+      unless(Math::GMPz::Rruns($z)) {
+        $ok =~ s/c//;
+        print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+      }
+      unless(Math::GMPz::Rpoker($z)) {
+        $ok =~ s/d//;
+        print Math::GMPz::Rmpz_get_str($z, 62), "\n";
+      }
     }
 
     if($ok eq 'abcd') {print "ok 2\n"}
