@@ -276,7 +276,14 @@ __END__
      CRYPT_DEFAULT_CONTAINER_OPTIONAL
      CRYPT_SILENT
 
+=head1 LICENSE
 
-=head1 COPYRIGHT
+    This program is free software; you may redistribute it and/or
+    modify it under the same terms as Perl itself.
+    Copyright 2014 Sisyphus
 
-    Copyright Sisyphus 2014.
+=head1 AUTHOR
+
+    Sisyphus <sisyphus at(@) cpan dot (.) org>
+
+=cut
