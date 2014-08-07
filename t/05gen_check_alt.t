@@ -1,6 +1,5 @@
 # Run some basic tests to check the randomness.
-# Success implies little, but failure establishes that the PRG
-# is unsuitable for cryptographic purposes.
+# These tests need Math-GMPz-0.39 or later.
 
 use strict;
 use warnings;
@@ -10,11 +9,18 @@ eval {require Math::GMPz;};
 
 if($@) {
   print "1..1\n";
-  warn "\nMath::GMPz could not be loaded - skipping all tests\n";
+  warn "\nSkip all - Math::GMPz could not be loaded (0.39 or later needed)\n";
   print "ok 1\n";
 
 }
 else {
+
+  if($Math::GMPz::VERSION < '0.39') {
+    print "1..1\n";
+    warn "\nSkip all - we have Math-GMPz-$Math::GMPz::VERSION, but we need 0.39 or later\n";
+    print "ok 1\n";
+    exit 0;
+  }
 
   print "1..2\n";
   my $count = 210;
