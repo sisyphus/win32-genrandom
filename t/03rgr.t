@@ -2,22 +2,23 @@ use strict;
 use warnings;
 use Win32;
 use Win32::GenRandom qw(:all);
+use Config;
 
-my ($major, $minor) = (Win32::GetOSVersion())[1, 2];
+my $max_uv_digits = ($Config::Config{ivsize} * 10) / 4;
 
-if($major == 5 && $minor == 0) {
+if(!$Win32::GenRandom::rtl_avail) {
   print "1..1\n";
 
   eval{rgr(1, 100)};
 
-  if($@ =~ /RtlGenRandom\(\) not available on Windows 2000/) {print "ok 1\n"}
+  if($@ =~ /RtlGenRandom not available on Windows 2000/) {print "ok 1\n"}
   else {
     warn "\$\@: $@\n";
     print "not ok 1\n";
   }
 }
 else {
-  print "1..7\n";
+  print "1..11\n";
 
   my $s1 = rgr(1, 100);
   my $s2 = rgr(1, 100);
@@ -93,5 +94,51 @@ else {
 
   if($ok) {print "ok 7\n"}
   else {print "not ok 7\n"}
+
+  $ok = 1;
+
+  for(@s) {
+    unless($_ =~ /[1-9]/ && $_ !~ /\D/ && length($_) <= $max_uv_digits) {
+      $ok = 0;
+      warn "\nrgr_uv() function returned an unacceptable value ($_)\n";
+    }
+  }
+
+  if($ok) {print "ok 8\n"}
+  else {print "not ok 8\n"}
+
+  @s = rgr_32($how_many);
+
+  if(@s == $how_many) {print "ok 9\n"}
+  else {
+    warn "\n\@s: ", scalar(@s), "\n";
+    print "not ok 9\n";
+  }
+
+  $ok = 1;
+
+  for(my $i = 1; $i < @s; $i++) {
+    for(my $j = 0; $j < $i; $j++) {
+      if($s[$j] == $s[$i]) {
+        $ok = 0;
+        warn "\n\$s[$j] and \$s[$i] are the same value\n";
+      }
+    }
+  }
+
+  if($ok) {print "ok 10\n"}
+  else {print "not ok 10\n"}
+
+  $ok = 1;
+
+  for(@s) {
+    unless($_ =~ /[1-9]/ && $_ !~ /\D/ && length($_) <= 10) {
+      $ok = 0;
+      warn "\nrgr_32() function returned an unacceptable value ($_)\n";
+    }
+  }
+
+  if($ok) {print "ok 11\n"}
+  else {print "not ok 11\n"}
 
 } #else
