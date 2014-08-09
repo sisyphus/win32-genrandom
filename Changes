@@ -1,4 +1,7 @@
 0.05
+ - zero the buffer as soon as the bytes it's holding are no longer needed (in
+   accordance with MSDN documentation). Zeroing does not happen if both SecureZeroMemory()
+   and ZeroMemory() are unavailable.
 
 0.04
  - Ensure that t/05gen_check.t and t/05gen_check_alt.t use at least version 0.39
