@@ -22,7 +22,7 @@ use subs qw(
 @Win32::GenRandom::EXPORT = ();
 @Win32::GenRandom::EXPORT_OK = qw(
     cgr rgr cgr_uv rgr_uv cgr_32 rgr_32 gr gr_uv gr_32 cgr_custom cgr_custom_uv cgr_custom_32
-    which_crypto
+    which_crypto whw
     PROV_FORTEZZA CRYPT_VERIFYCONTEXT CRYPT_DELETEKEYSET PROV_SSL PROV_RSA_SIG PROV_DSS
     CRYPT_NEWKEYSET PROV_DH_SCHANNEL CRYPT_MACHINE_KEYSET CRYPT_DEFAULT_CONTAINER_OPTIONAL
     PROV_MS_EXCHANGE PROV_RSA_FULL PROV_RSA_AES CRYPT_SILENT PROV_RSA_SCHANNEL PROV_DSS_DH
@@ -30,7 +30,7 @@ use subs qw(
 
 %Win32::GenRandom::EXPORT_TAGS = (all => [qw(
     cgr rgr cgr_uv rgr_uv cgr_32 rgr_32 gr gr_uv gr_32 cgr_custom cgr_custom_uv cgr_custom_32
-    which_crypto
+    which_crypto whw
     PROV_FORTEZZA CRYPT_VERIFYCONTEXT CRYPT_DELETEKEYSET PROV_SSL PROV_RSA_SIG PROV_DSS
     CRYPT_NEWKEYSET PROV_DH_SCHANNEL CRYPT_MACHINE_KEYSET CRYPT_DEFAULT_CONTAINER_OPTIONAL
     PROV_MS_EXCHANGE PROV_RSA_FULL PROV_RSA_AES CRYPT_SILENT PROV_RSA_SCHANNEL PROV_DSS_DH
@@ -254,6 +254,22 @@ __END__
     IOW it tells us which crypto functionality the "gr" functions will
     use - and is just another way to access the value of
     $Win32::GenRandom::rtl_avail (via subroutine call).
+
+   $zero_func = whw(); # Mnemonic for "What Have We ?"
+
+    The MSDN docs recommend zeroing the buffer that has received the
+    random bytes as soon as we no longer need it to hold those bytes.
+    We should use SecureZeroMemory() to do that but, although that
+    function is available on Microsoft and mingw64.sf compilers, it's
+    missing on at least some mingw.org compilers. Therefore, we fall
+    back to using ZeroMemory() if SecureZeroMemory() is unavailable.
+    Should neither be available, then the buffer simply doesn't get
+    zeroed.
+    This function returns the name of the function that is being used
+    to zero the buffer ("SecureZeroMemory" or "ZeroMemory"), or
+    returns "None" if neither function is available.
+    I suspect this zeroing is not relevant for (at least) most apps,
+    but it has minimal impact upon the time taken for rgr() to run.
 
 =head1 CONSTANTS
 
