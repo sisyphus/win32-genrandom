@@ -2,6 +2,7 @@ MANIFEST
 Changes
 README
 GenRandom.pm
+GenRandom.pod
 GenRandom.xs
 Makefile.PL
 t/01load.t
