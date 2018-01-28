@@ -9,7 +9,7 @@ require Exporter;
 *import = \&Exporter::import;
 require DynaLoader;
 
-$Win32::GenRandom::VERSION = '0.05';
+$Win32::GenRandom::VERSION = '0.06';
 
 DynaLoader::bootstrap Win32::GenRandom $Win32::GenRandom::VERSION;
 
