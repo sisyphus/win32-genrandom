@@ -1,5 +1,7 @@
 Revision history for Perl module Win32::GenRandom
 
+0.07
+
 0.06
  - Extend 04print_error.t to accommodate Japanese language.
    See https://rt.cpan.org/Ticket/Display.html?id=124244
