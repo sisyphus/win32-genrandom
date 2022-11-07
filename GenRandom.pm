@@ -19,8 +19,7 @@ use subs qw(
     PROV_MS_EXCHANGE PROV_RSA_FULL PROV_RSA_AES CRYPT_SILENT PROV_RSA_SCHANNEL PROV_DSS_DH
            );
 
-@Win32::GenRandom::EXPORT = ();
-@Win32::GenRandom::EXPORT_OK = qw(
+my @tagged = qw(
     cgr rgr cgr_uv rgr_uv cgr_32 rgr_32 gr gr_uv gr_32 cgr_custom cgr_custom_uv cgr_custom_32
     which_crypto whw
     PROV_FORTEZZA CRYPT_VERIFYCONTEXT CRYPT_DELETEKEYSET PROV_SSL PROV_RSA_SIG PROV_DSS
@@ -28,13 +27,9 @@ use subs qw(
     PROV_MS_EXCHANGE PROV_RSA_FULL PROV_RSA_AES CRYPT_SILENT PROV_RSA_SCHANNEL PROV_DSS_DH
     );
 
-%Win32::GenRandom::EXPORT_TAGS = (all => [qw(
-    cgr rgr cgr_uv rgr_uv cgr_32 rgr_32 gr gr_uv gr_32 cgr_custom cgr_custom_uv cgr_custom_32
-    which_crypto whw
-    PROV_FORTEZZA CRYPT_VERIFYCONTEXT CRYPT_DELETEKEYSET PROV_SSL PROV_RSA_SIG PROV_DSS
-    CRYPT_NEWKEYSET PROV_DH_SCHANNEL CRYPT_MACHINE_KEYSET CRYPT_DEFAULT_CONTAINER_OPTIONAL
-    PROV_MS_EXCHANGE PROV_RSA_FULL PROV_RSA_AES CRYPT_SILENT PROV_RSA_SCHANNEL PROV_DSS_DH
-    )]);
+@Win32::GenRandom::EXPORT = ();
+@Win32::GenRandom::EXPORT_OK = @tagged;
+%Win32::GenRandom::EXPORT_TAGS = (all => \@tagged);
 
 my ($major, $minor) = (Win32::GetOSVersion())[1, 2];
 
