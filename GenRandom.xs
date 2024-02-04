@@ -30,7 +30,7 @@ void cgr(pTHX_ SV * x, ...) {
   HCRYPTPROV prov = 0;
   unsigned long how_many;
   DWORD len;
-
+  PERL_UNUSED_ARG(x);
   if(items == 1) {
     how_many = 1;
     len = (ULONG)SvUV(ST(0));
@@ -66,7 +66,7 @@ void cgr(pTHX_ SV * x, ...) {
       print_error(aTHX); /* callback to $^E */
       croak("Croaking - owing to failure of call to CryptGenRandom");
     }
-    XPUSHs(sv_2mortal(newSVpv(buff, len)));
+    XPUSHs(sv_2mortal(newSVpv((char*)buff, len)));
   }
   Safefree(buff);
   CryptReleaseContext(prov, 0);
@@ -83,6 +83,7 @@ void cgr_custom(pTHX_ SV * x, ...) {
   unsigned long how_many;
   DWORD len;
   int offset = 0;
+  PERL_UNUSED_ARG(x);
 
   if(items == 5) {
     how_many = 1;
@@ -121,7 +122,7 @@ void cgr_custom(pTHX_ SV * x, ...) {
       print_error(aTHX); /* callback to $^E */
       croak("Croaking - owing to failure of call to CryptGenRandom");
     }
-    XPUSHs(sv_2mortal(newSVpv(buff, len)));
+    XPUSHs(sv_2mortal(newSVpv((char*)buff, len)));
   }
   Safefree(buff);
   CryptReleaseContext(prov, 0);
@@ -137,6 +138,7 @@ void rgr(pTHX_ SV * x, ...) {
   unsigned long how_many;
   ULONG len;
   HMODULE hLib;
+  PERL_UNUSED_ARG(x);
 
   if(items == 1) {
     how_many = 1;
@@ -158,12 +160,12 @@ void rgr(pTHX_ SV * x, ...) {
   sp = mark;
 
   if (hLib) {
-    BOOLEAN (APIENTRY *pfn)(void*, ULONG) =
-      (BOOLEAN (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
+    int (APIENTRY *pfn)(void*, ULONG) =
+      (int (APIENTRY *)(void*,ULONG))GetProcAddress(hLib,"SystemFunction036");
 
     for(i = 0; i < how_many; i++) {
       if(pfn(buff,len)) {
-        XPUSHs(sv_2mortal(newSVpv(buff, len)));
+        XPUSHs(sv_2mortal(newSVpv((char*)buff, len)));
        /*
           Now that we've finished with it, fill buffer with zeroes (as per MSDN recommendation).
           We do this with SecureZeroMemory if its available, else we do it with ZeroMemory if

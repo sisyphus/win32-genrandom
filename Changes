@@ -2,7 +2,8 @@ Revision history for Perl module Win32::GenRandom
 
 0.07
  - Extend 04print_error.t to accommodate Norwegian(?) language.
-   See http://www.cpantesters.org/cpan/report/5bea8834-6c15-1014-9728-947a69efebc9
+   See http://www.cpantesters.org/cpan/report/5bea8834-6c15-1014-9728-947a69efebc9 .
+ - Silence pointless warnings.
 
 0.06
  - Extend 04print_error.t to accommodate Japanese language.
